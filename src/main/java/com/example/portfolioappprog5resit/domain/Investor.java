@@ -30,9 +30,6 @@ public class Investor {
     @Column(length = 50)
     private String riskProfile;
 
-    @Transient
-    private List<Stock> allStocks = new ArrayList<>();
-
     @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BrokerageAccount> accounts = new ArrayList<>();
 
@@ -53,7 +50,6 @@ public class Investor {
     public String getContactDetails() { return contactDetails; }
     public LocalDate getBirthDate() { return birthDate; }
     public String getRiskProfile() { return riskProfile; }
-    public List<Stock> getAllStocks() { return allStocks; }
     public List<BrokerageAccount> getAccounts() { return accounts; }
 
 
@@ -64,43 +60,12 @@ public class Investor {
     public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
     public void setRiskProfile(String riskProfile) { this.riskProfile = riskProfile; }
 
-
-    // Behavior
-    public void addAccount(BrokerageAccount account) {
-        if (account == null) return;
-        if (!accounts.contains(account)) {
-            accounts.add(account);
-            account.setInvestor(this);
-            updateAllStocksFromAccounts();
-        }
-    }
-
-    public void addStockToGeneralList(Stock stock) {
-        if (stock != null && !allStocks.contains(stock)) {
-            allStocks.add(stock);
-        }
-    }
-
-    public void updateAllStocksFromAccounts() {
-        allStocks.clear();
-        for (BrokerageAccount account : accounts) {
-            if (account.getStocks() != null) {
-                for (Stock stock : account.getStocks()) {
-                    if (!allStocks.contains(stock)) {
-                        allStocks.add(stock);
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public String toString() {
         return "Investor id=" + id + ", name='" + name + '\'' +
                 ", birthDate=" + birthDate +
                 ", riskProfile='" + riskProfile + '\'' +
-                ", accounts=" + (accounts != null ? accounts.size() : 0) +
-                ", stocks=" + (allStocks != null ? allStocks.size() : 0);
+                ", accounts=" + (accounts != null ? accounts.size() : 0);
     }
 
     /** JPA-safe equals/hashCode: use id when assigned; otherwise fall back to identity */
