@@ -2,6 +2,9 @@ package com.example.portfolioappprog5resit.repository;
 
 import com.example.portfolioappprog5resit.domain.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -18,6 +21,10 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
     List<Stock> findByCurrentPriceLessThanEqual(double max);
     List<Stock> findBySymbolContainingIgnoreCaseAndCurrentPriceBetween(String symbol, double min, double max);
     List<Stock> findByIdIn(List<Integer> ids);
+
+    @Modifying
+    @Query(value = "DELETE FROM account_stocks WHERE stock_id = :stockId", nativeQuery = true)
+    void deleteLinksForStock(@Param("stockId") int stockId);
 
     // Bridge method to keep old API: int -> Optional<Stock> -> Stock|null
     default Stock findById(int id) {

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
  * such as using a hidden element with data attributes.
  */
 function getMessage(key) {
-    const messageElement = document.querySelector(`#msg-${key}`);
-    return messageElement ? messageElement.getAttribute('data-message') : '';
+    const el = document.getElementById(`msg-${key}`);
+    return el ? el.getAttribute('data-message') : '';
 }
 

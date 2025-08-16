@@ -59,6 +59,9 @@ public class StockServiceImpl implements StockService {
     @Transactional
     public void deleteById(int id) {
         try {
+            // 1) clear join table
+            stockRepository.deleteLinksForStock(id);
+            // 2) delete the stock
             stockRepository.deleteById(id);
         } catch (Exception e) {
             throw new PortfolioApplicationException("Failed to delete stock", e);
