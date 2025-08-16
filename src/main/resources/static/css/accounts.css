@@ -1,0 +1,63 @@
+body {
+    background-color: #121212;
+    color: #f1f1f1;
+    font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+    color: #ffcc00;
+    text-shadow: 2px 2px #000;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.table {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    border-radius: 8px;
+}
+
+.table th {
+    background-color: #333;
+    color: #ffcc00;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table a {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.table a:hover {
+    text-decoration: underline;
+}
+
+.btn-danger {
+    background-color: #ff4c4c;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #ff0000;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    background-color: #1e1e1e;
+    color: #888;
+}
+
+.delete-btn {
+    transition: transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    transform: scale(1.1);
+}

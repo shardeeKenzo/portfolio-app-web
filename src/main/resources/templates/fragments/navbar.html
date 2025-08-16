@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <title>Stock Management</title>
+</head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000000;">
+        <div class="container-fluid">
+            <!-- Updated href to redirect to the main page -->
+            <a class="navbar-brand text-warning" th:href="@{/}" th:text="#{app.stockManagement}">Stock Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" th:href="@{/stocks}" th:text="#{app.stocksTitle}">Stocks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" th:href="@{/investors}" th:text="#{app.investorsTitle}">Investors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" th:href="@{/stocks/addstock}" th:text="#{app.addNewStock}">Add Stock</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" th:href="@{/investors/addinvestor}" th:text="#{app.addNewInvestor}">Add Investor</a>
+                    </li>
+                </ul>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span th:text="#{app.language}">Language</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <li>
+                            <a class="dropdown-item" href="/changeLanguage?lang=en" th:text="#{app.english}">English</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/changeLanguage?lang=fr" th:text="#{app.french}">Français</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/changeLanguage?lang=nl" th:text="#{app.dutch}">Nederlands</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/navbar.js"></script>
+</body>
+</html>
+

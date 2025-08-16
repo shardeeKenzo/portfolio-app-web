@@ -1,0 +1,81 @@
+.trading-table {
+    width: 100%;
+    background-color: #1a1a1a;
+    color: #FFD700;
+    border-collapse: collapse;
+    border: 2px solid #FFD700;
+}
+
+.trading-table thead {
+    background-color: #333333;
+    border-bottom: 2px solid #FFD700;
+}
+
+.trading-table th, .trading-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #FFD700;
+}
+
+.trading-table th {
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.trading-table tbody tr {
+    background-color: #1a1a1a;
+}
+
+.trading-table tbody tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+.trading-table tbody tr:hover {
+    background-color: #444444;
+    cursor: pointer;
+}
+
+.trading-table a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+.trading-table a:hover {
+    color: #FFA500;
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.btn-trade {
+    background-color: #FFD700;
+    border: none;
+    color: #1a1a1a;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-trade:hover {
+    background-color: #FFA500;
+    color: #FFFFFF;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #FFD700;
+}
+

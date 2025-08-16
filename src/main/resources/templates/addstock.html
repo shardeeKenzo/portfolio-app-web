@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="#{app.addStockTitle}">Add Stock</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-4">
+    <h1 th:text="#{app.addNewStock}">Add Stock</h1>
+
+    <form action="/stocks/addstock" method="post" enctype="multipart/form-data">
+        <!-- Company Name -->
+        <div class="mb-3">
+            <label for="companyName" class="form-label" th:text="#{app.companyName}">Company Name:</label>
+            <input type="text" name="companyName" id="companyName"
+                   class="form-control" required/>
+        </div>
+
+        <!-- Symbol -->
+        <div class="mb-3">
+            <label for="symbol" class="form-label" th:text="#{app.symbol}">Symbol:</label>
+            <input type="text" name="symbol" id="symbol"
+                   class="form-control" required/>
+        </div>
+
+        <!-- Current Price -->
+        <div class="mb-3">
+            <label for="currentPrice" class="form-label" th:text="#{app.currentPrice}">Current Price:</label>
+            <input type="number" name="currentPrice" id="currentPrice"
+                   class="form-control" step="0.01" min="0" required/>
+        </div>
+
+        <!-- Sector (Select) -->
+        <div class="mb-3">
+            <label for="sector" class="form-label" th:text="#{app.sector}">Sector:</label>
+            <select name="sector" id="sector" class="form-control" required>
+                <option value="" disabled selected>Select a sector</option>
+                <option value="TECHNOLOGIES">TECHNOLOGIES</option>
+                <option value="CAR_MANUFACTURES">CAR_MANUFACTURES</option>
+                <option value="FINANCE">FINANCE</option>
+                <option value="HEALTHCARE">HEALTHCARE</option>
+                <option value="INDUSTRIAL">INDUSTRIAL</option>
+            </select>
+        </div>
+
+        <!-- File Input for Image -->
+        <div class="mb-3">
+            <label for="imageFile" class="form-label" th:text="#{app.imageLabel}">Upload Image:</label>
+            <input type="file" name="imageFile" id="imageFile"
+                   class="form-control" accept="image/*"/>
+        </div>
+
+        <input type="hidden" name="listedDate"
+               th:value="${T(java.time.LocalDate).now()}"/>
+
+        <button type="submit" class="btn btn-primary mt-3" th:text="#{app.addStockButton}">
+            Add Stock
+        </button>
+    </form>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/animations.js"></script>
+</body>
+</html>
+
+

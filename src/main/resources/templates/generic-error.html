@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{app.errorTitle}">Error</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<!-- Navbar Fragment -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading" th:text="#{app.errorHeading}">Error</h4>
+    <p th:text="${errorMessage}">An unexpected error has occurred.</p>
+    <hr>
+    <a th:href="@{/}" class="btn btn-primary" th:text="#{app.goHomeButton}">Go Home</a>
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

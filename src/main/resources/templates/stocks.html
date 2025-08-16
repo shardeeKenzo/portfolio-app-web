@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.stocksTitle}">Stocks</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <h1 th:text="#{app.allStocks}">All Stocks</h1>
+    <form action="/stocks/filter" method="post">
+        <div class="row g-3">
+            <div class="col-md">
+                <label for="symbol" th:text="#{app.filterBySymbol}">Filter by Symbol:</label>
+                <input type="text" name="symbol" id="symbol" class="form-control" placeholder="e.g. AAPL">
+            </div>
+            <div class="col-md">
+                <label for="minPrice" th:text="#{app.minPrice}">Min Price:</label>
+                <input type="text" name="minPriceInput" id="minPrice" class="form-control" placeholder="e.g. 100.00">
+            </div>
+            <div class="col-md">
+                <label for="maxPrice" th:text="#{app.maxPrice}">Max Price:</label>
+                <input type="text" name="maxPriceInput" id="maxPrice" class="form-control" placeholder="e.g. 500.00">
+            </div>
+            <div class="col-md">
+                <button type="submit" class="btn mt-4" th:text="#{app.filterButton}">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div th:if="${not #lists.isEmpty(stocks)}" th:each="stock : ${stocks}" class="col-md-4">
+            <div class="card">
+                <img th:src="@{${stock.imageURL}}" class="card-img-top stock-img" alt="Stock Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${stock.companyName}"></h5>
+                    <p>
+                        <strong th:text="#{app.symbolLabel}">Symbol:</strong> <span th:text="${stock.symbol}"></span><br>
+                        <strong th:text="#{app.currentPriceLabel}">Current Price:</strong> $<span th:text="${stock.currentPrice}"></span><br>
+                        <strong th:text="#{app.sectorLabel}">Sector:</strong> <span th:text="${stock.sector}"></span><br>
+                        <strong th:text="#{app.listedDateLabel}">Listed Date:</strong> <span th:text="${stock.listedDate}"></span>
+                    </p>
+                    <a th:href="@{/stocks/{id}(id=${stock.id})}" class="btn" th:text="#{app.viewDetails}">View Details</a>
+                </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(stocks)}" class="no-data">
+            <p th:text="#{app.noStocksAvailable}">No stocks available at the moment.</p>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<script src="/js/animations.js"></script>
+</body>
+</html>
+

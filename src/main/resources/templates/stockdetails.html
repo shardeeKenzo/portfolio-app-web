@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.stockDetailsTitle}">Stock Details</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+    <h1 th:text="${stock.companyName}">Stock Name</h1>
+    <p><strong th:text="#{app.symbolLabel}">Symbol:</strong> <span th:text="${stock.symbol}"></span></p>
+    <p><strong th:text="#{app.currentPriceLabel}">Current Price:</strong> $<span th:text="${stock.currentPrice}"></span></p>
+    <p><strong th:text="#{app.sectorLabel}">Sector:</strong> <span th:text="${stock.sector}"></span></p>
+    <p><strong th:text="#{app.listedDateLabel}">Listed Date:</strong> <span th:text="${stock.listedDate}"></span></p>
+
+    <form th:action="@{/stocks/delete/{id}(id=${stock.id})}" method="post">
+        <button type="submit" class="btn btn-danger" th:text="#{app.deleteStockButton}">Delete Stock</button>
+    </form>
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+<script src="/js/animations.js"></script>
+</body>
+</html>
+
+

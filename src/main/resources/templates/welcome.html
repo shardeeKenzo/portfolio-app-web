@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{welcome.title}">Welcome to Portfolio Application</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/welcome.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Hero Section -->
+<section class="hero-section text-center text-white">
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <h1 th:text="#{welcome.header}" class="display-4 fw-bold">Welcome to Portfolio Application</h1>
+    <p th:text="#{welcome.subheader}" class="lead mt-3">Manage your investments with ease and confidence.</p>
+    <a th:href="@{/investors}" class="btn btn-warning btn-lg mt-4" th:text="#{welcome.getStarted}">Get Started</a>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="container my-5">
+  <div class="row">
+    <!-- Manage Investors Feature Card -->
+    <div class="col-md-4 mb-4">
+      <a th:href="@{/investors}" class="text-decoration-none">
+        <div class="feature-card text-center">
+          <img src="/images/manage-investors.png" alt="Manage Investors" class="mb-3" width="80" height="80">
+          <h3 th:text="#{welcome.manageInvestors}">Manage Investors</h3>
+          <p th:text="#{welcome.manageInvestorsDesc}">Add, edit, and view investor details seamlessly.</p>
+          <span class="btn btn-outline-warning mt-2" th:text="#{welcome.viewMore}">View More</span>
+        </div>
+      </a>
+    </div>
+    <!-- Manage Stocks Feature Card -->
+    <div class="col-md-4 mb-4">
+      <a th:href="@{/stocks}" class="text-decoration-none">
+        <div class="feature-card text-center">
+          <img src="/images/manage-stocks.png" alt="Manage Stocks" class="mb-3" width="80" height="80">
+          <h3 th:text="#{welcome.manageStocks}">Manage Stocks</h3>
+          <p th:text="#{welcome.manageStocksDesc}">Add, edit, and track stock performance in real-time.</p>
+          <span class="btn btn-outline-warning mt-2" th:text="#{welcome.viewMore}">View More</span>
+        </div>
+      </a>
+    </div>
+    <!-- Analytics Feature Card -->
+    <div class="col-md-4 mb-4">
+      <div class="feature-card text-center">
+        <img src="/images/analytics.png" alt="Analytics" class="mb-3" width="80" height="80">
+        <h3 th:text="#{welcome.analytics}">Analytics</h3>
+        <p th:text="#{welcome.analyticsDesc}">Gain insights with comprehensive analytics and reporting tools.</p>
+        <span class="btn btn-outline-warning mt-2" th:text="#{welcome.viewMore}">View More</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Export Section -->
+<section class="container my-5">
+  <h2>Export Data as JSON</h2>
+  <p>Use the buttons below to export your data in JSON format.</p>
+  <div class="d-flex gap-3 flex-wrap">
+
+    <!-- Button 1: Export Investors as JSON -->
+    <a th:href="@{/export/investors}"
+       class="btn btn-dark">
+      Export Investors (JSON)
+    </a>
+
+    <!-- Button 2: Export Accounts as JSON-->
+    <a th:href="@{/export/accounts}"
+       class="btn btn-dark">
+      Export Brokerage Accounts (JSON)
+    </a>
+
+    <!-- Button 3: Export Stocks as JSON -->
+    <a th:href="@{/export/stocks}"
+       class="btn btn-dark">
+      Export Stocks (JSON)
+    </a>
+
+  </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/welcome.js"></script>
+</body>
+</html>
+
+
