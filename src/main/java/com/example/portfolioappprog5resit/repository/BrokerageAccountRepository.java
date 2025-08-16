@@ -13,6 +13,7 @@ public interface BrokerageAccountRepository extends JpaRepository<BrokerageAccou
     @Query("""
            select ba
            from BrokerageAccount ba
+           left join fetch ba.investor
            left join fetch ba.stocks s
            where ba.id = :id
            """)

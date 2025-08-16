@@ -35,16 +35,14 @@ public class BrokerageAccountController {
     @GetMapping("/{id}")
     public String showAccountDetails(@PathVariable int id, Model model) {
         logger.info("Request for account details with id={}", id);
-        BrokerageAccount account = brokerageAccountService.findById(id);
+        BrokerageAccount account = brokerageAccountService.findByIdWithStocks(id);
         if (account == null) {
             throw new PortfolioApplicationException("Account not found with ID: " + id);
         }
         model.addAttribute("account", account);
 
-        // fetch available stocks not already in the account
-        List<Stock> availableStocks = stockService.getAllStocks().stream()
-                .filter(stock -> !account.getStocks().contains(stock))
-                .toList();
+        // Best: fetch “available” stocks with a repo query (no in-memory contains)
+        List<Stock> availableStocks = stockService.findAllNotInAccount(id);
         model.addAttribute("availableStocks", availableStocks);
 
         return "accountdetails";

@@ -26,6 +26,16 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
     @Query(value = "DELETE FROM account_stocks WHERE stock_id = :stockId", nativeQuery = true)
     void deleteLinksForStock(@Param("stockId") int stockId);
 
+    @Query("""
+           select s from Stock s
+           where not exists (
+               select 1 from BrokerageAccount ba
+               join ba.stocks bs
+               where ba.id = :accountId and bs.id = s.id
+           )
+           """)
+    List<Stock> findAllNotInAccount(@Param("accountId") int accountId);
+
     // Bridge method to keep old API: int -> Optional<Stock> -> Stock|null
     default Stock findById(int id) {
         return ((JpaRepository<Stock, Integer>) this)

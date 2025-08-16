@@ -18,6 +18,10 @@ public class StockServiceImpl implements StockService {
         this.stockRepository = stockRepository;
     }
 
+    public List<Stock> findAllNotInAccount(int accountId) {
+        return stockRepository.findAllNotInAccount(accountId);
+    }
+
     @Override
     @Transactional
     public void addStock(Stock stock) {
