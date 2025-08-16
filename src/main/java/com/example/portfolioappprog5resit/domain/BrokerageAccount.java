@@ -108,8 +108,7 @@ public class BrokerageAccount {
                 ", accountNumber='" + accountNumber + '\'' +
                 ", balance=" + balance +
                 ", creationDate=" + creationDate +
-                ", accountType=" + accountType +
-                ", stocks=" + (stocks != null ? stocks.size() : 0) + '}';
+                ", accountType=" + accountType + '}';
     }
 
     /** JPA-safe equals/hashCode: id only (no collections). */

@@ -52,24 +52,17 @@ public class BrokerageAccountController {
      * POST /accounts/{id}/addstocks -> Add selected stocks to the account
      */
     @PostMapping("/{id}/addstocks")
-    public String addStocksToAccount(@PathVariable int id, @RequestParam(required = false) List<Integer> stockIds, RedirectAttributes redirectAttributes) {
-        logger.info("Adding stocks {} to account {}", stockIds, id);
-        BrokerageAccount account = brokerageAccountService.findById(id);
-        if (account == null) {
-            throw new PortfolioApplicationException("Account not found with ID: " + id);
-        }
-
+    public String addStocksToAccount(@PathVariable int id,
+                                     @RequestParam(required = false) List<Integer> stockIds,
+                                     RedirectAttributes ra) {
         if (stockIds == null || stockIds.isEmpty()) {
-            redirectAttributes.addAttribute("id", id);
-            redirectAttributes.addAttribute("error", "noStocksSelected");
+            ra.addAttribute("id", id);
+            ra.addAttribute("error", "noStocksSelected");
             return "redirect:/accounts/{id}";
         }
-
-        List<Stock> stocksToAdd = stockService.findByIds(stockIds);
-        brokerageAccountService.addStocksToAccount(account, stocksToAdd);
-
-        redirectAttributes.addAttribute("id", id);
-        redirectAttributes.addAttribute("success", "stocksAdded");
+        brokerageAccountService.addStocksToAccount(id, stockIds);
+        ra.addAttribute("id", id);
+        ra.addAttribute("success", "stocksAdded");
         return "redirect:/accounts/{id}";
     }
 
@@ -77,22 +70,12 @@ public class BrokerageAccountController {
      * POST /accounts/{id}/removestock -> Remove a stock from the account
      */
     @PostMapping("/{id}/removestock")
-    public String removeStockFromAccount(@RequestParam int stockId, @PathVariable int id, RedirectAttributes redirectAttributes) {
-        logger.info("Removing stock {} from account {}", stockId, id);
-        BrokerageAccount account = brokerageAccountService.findById(id);
-        if (account == null) {
-            throw new PortfolioApplicationException("Account not found with ID: " + id);
-        }
-
-        Stock stock = stockService.findById(stockId);
-        if (stock == null) {
-            throw new PortfolioApplicationException("Stock not found with ID: " + stockId);
-        }
-
-        brokerageAccountService.removeStockFromAccount(account, stock);
-
-        redirectAttributes.addAttribute("id", id);
-        redirectAttributes.addAttribute("success", "stockRemoved");
+    public String removeStockFromAccount(@PathVariable int id,
+                                         @RequestParam int stockId,
+                                         RedirectAttributes ra) {
+        brokerageAccountService.removeStockFromAccount(id, stockId);
+        ra.addAttribute("id", id);
+        ra.addAttribute("success", "stockRemoved");
         return "redirect:/accounts/{id}";
     }
 

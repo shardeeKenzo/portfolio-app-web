@@ -9,8 +9,8 @@ public interface BrokerageAccountService {
     BrokerageAccount findById(int id);
     BrokerageAccount findByIdWithStocks(int id);
 
-    void addStocksToAccount(BrokerageAccount account, List<Stock> stocksToAdd);
-    void removeStockFromAccount(BrokerageAccount account, Stock stock);
+    void addStocksToAccount(int accountId, List<Integer> stockIds);
+    void removeStockFromAccount(int accountId, int stockId);
 
     void deleteById(int id);
     void deleteAccount(int id); // alias kept for compatibility

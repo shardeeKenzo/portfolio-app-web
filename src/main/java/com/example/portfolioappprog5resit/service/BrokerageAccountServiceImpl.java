@@ -4,6 +4,7 @@ import com.example.portfolioappprog5resit.domain.BrokerageAccount;
 import com.example.portfolioappprog5resit.domain.Stock;
 import com.example.portfolioappprog5resit.exception.PortfolioApplicationException;
 import com.example.portfolioappprog5resit.repository.BrokerageAccountRepository;
+import com.example.portfolioappprog5resit.repository.StockRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class BrokerageAccountServiceImpl implements BrokerageAccountService {
 
     private final BrokerageAccountRepository accountRepository;
+    private final StockRepository stockRepository;
 
-    public BrokerageAccountServiceImpl(BrokerageAccountRepository accountRepository) {
+    public BrokerageAccountServiceImpl(BrokerageAccountRepository accountRepository, StockRepository stockRepository) {
         this.accountRepository = accountRepository;
+        this.stockRepository = stockRepository;
     }
 
     @Override
@@ -32,28 +35,26 @@ public class BrokerageAccountServiceImpl implements BrokerageAccountService {
 
     @Override
     @Transactional
-    public void addStocksToAccount(BrokerageAccount account, List<Stock> stocksToAdd) {
-        try {
-            if (account == null || stocksToAdd == null) return;
-            for (Stock stock : stocksToAdd) {
-                account.addStock(stock);
-            }
-            accountRepository.save(account);
-        } catch (Exception e) {
-            throw new PortfolioApplicationException("Failed to add stocks to account", e);
-        }
+    public void addStocksToAccount(int accountId, List<Integer> stockIds) {
+        BrokerageAccount account = accountRepository.findByIdWithStocks(accountId);
+        if (account == null) throw new PortfolioApplicationException("Account not found with ID: " + accountId);
+
+        List<Stock> stocksToAdd = stockRepository.findAllById(stockIds);
+        stocksToAdd.forEach(account::addStock);
+        // optional save
     }
 
     @Override
     @Transactional
-    public void removeStockFromAccount(BrokerageAccount account, Stock stock) {
-        try {
-            if (account == null || stock == null) return;
-            account.removeStock(stock);
-            accountRepository.save(account);
-        } catch (Exception e) {
-            throw new PortfolioApplicationException("Failed to remove stock from account", e);
-        }
+    public void removeStockFromAccount(int accountId, int stockId) {
+        BrokerageAccount account = accountRepository.findByIdWithStocks(accountId);
+        if (account == null) throw new PortfolioApplicationException("Account not found with ID: " + accountId);
+
+        Stock stock = stockRepository.findById(stockId);
+        if (stock == null) throw new PortfolioApplicationException("Stock not found with ID: " + stockId);
+
+        account.removeStock(stock);
+        // optional save
     }
 
     @Override
