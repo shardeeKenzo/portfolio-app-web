@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InvestorRepository extends JpaRepository<Investor, Integer> {
@@ -17,10 +18,9 @@ public interface InvestorRepository extends JpaRepository<Investor, Integer> {
            select distinct i
            from Investor i
            left join fetch i.accounts a
-           left join fetch a.stocks
            where i.id = :id
            """)
-    Investor findWithAccounts(@Param("id") int id);
+    Optional<Investor> findWithAccounts(@Param("id") int id);
 
     // Derived helpers used by the default method below
     List<Investor> findByNameContainingIgnoreCase(String name);

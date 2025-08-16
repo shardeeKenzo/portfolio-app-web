@@ -1,6 +1,7 @@
 package com.example.portfolioappprog5resit.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.portfolioappprog5resit.domain.BrokerageAccount;
 import com.example.portfolioappprog5resit.domain.Investor;
@@ -65,7 +66,7 @@ public class InvestorServiceImpl implements InvestorService {
     @Override
     public Investor findWithAccounts(int id) {
         try {
-            return investorRepository.findWithAccounts(id);
+            return investorRepository.findWithAccounts(id).orElse(null);
         } catch (Exception e) {
             throw new PortfolioApplicationException("Failed to retrieve investor details", e);
         }
