@@ -61,6 +61,9 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
         return findAll();
     }
 
+    @Query("select s from BrokerageAccount ba join ba.stocks s where ba.id = :accountId")
+    List<Stock> findAllByAccountId(@Param("accountId") int accountId);
+
     default List<Stock> findAllStocksByIds(List<Integer> ids) {
         if (ids == null || ids.isEmpty()) return List.of();
         return findByIdIn(ids);

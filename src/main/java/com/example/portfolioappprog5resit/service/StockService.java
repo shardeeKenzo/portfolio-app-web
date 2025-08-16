@@ -11,5 +11,6 @@ public interface StockService {
     Stock findById(int id);
     void deleteById(int id);
     List<Stock> findByIds(List<Integer> ids);
+    List<Stock> findAllByAccountId(int accountId);
     List<Stock> findAllNotInAccount(int accountId);
 }

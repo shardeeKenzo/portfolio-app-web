@@ -1,0 +1,41 @@
+@host = http://localhost:8081
+@ctx = /
+@base = {{host}}{{ctx}}
+
+
+### GET all stocks (200 or 204)
+GET {{base}}/api/stocks
+Accept: application/json
+
+### GET filtered (likely 200, possibly 204 if none)
+GET {{base}}/api/stocks?symbol=AA&minPrice=10&maxPrice=100
+Accept: application/json
+
+### GET by id - 200
+GET {{base}}/api/stocks/1
+Accept: application/json
+
+### GET by id - 404 (non-existent)
+GET {{base}}/api/stocks/999999
+Accept: application/json
+
+### GET related: stocks of account 1 (200 or 204)
+GET {{base}}/api/accounts/1/stocks
+Accept: application/json
+
+### GET helper: stocks NOT in account 1 (200 or 204)
+GET {{base}}/api/accounts/1/stocks/available
+Accept: application/json
+
+### DELETE by id - 204 (requires login + CSRF)
+# Paste your CSRF token and session cookie if security is enabled
+DELETE {{base}}/api/stocks/5
+Accept: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+### DELETE by id - 404 (non-existent)
+DELETE {{base}}/api/stocks/999999
+Accept: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}

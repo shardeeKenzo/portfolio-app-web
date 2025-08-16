@@ -80,4 +80,9 @@ public class StockServiceImpl implements StockService {
             throw new PortfolioApplicationException("Failed to retrieve stocks by IDs", e);
         }
     }
+
+    @Override
+    public List<Stock> findAllByAccountId(int accountId) {
+        return stockRepository.findAllByAccountId(accountId);
+    }
 }

@@ -82,6 +82,7 @@ public class StockController {
      */
     @PostMapping("/delete/{id}")
     public String deleteStock(@PathVariable int id) {
+        logger.info("[MVC] POST /stocks/delete/{} invoked", id);
         stockService.deleteById(id);
         return "redirect:/stocks";
     }
