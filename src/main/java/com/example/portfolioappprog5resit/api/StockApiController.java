@@ -1,15 +1,20 @@
 package com.example.portfolioappprog5resit.api;
 
+import com.example.portfolioappprog5resit.api.dto.NewStockDto;
 import com.example.portfolioappprog5resit.api.dto.StockDto;
+import com.example.portfolioappprog5resit.api.dto.UpdateStockDto;
 import com.example.portfolioappprog5resit.api.mapping.StockMapper;
 import com.example.portfolioappprog5resit.domain.Stock;
 import com.example.portfolioappprog5resit.service.StockService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -56,5 +61,26 @@ public class StockApiController {
         if (existing == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404
         stockService.deleteById(id);                                                      // clears join rows first
         return ResponseEntity.noContent().build();                                        // 204
+    }
+
+    /** POST /api/stocks -> 201 Created (+ body) */
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StockDto> create(@RequestBody @Valid NewStockDto input) {
+        Stock entity = mapper.toEntity(input);
+        stockService.addStock(entity);            // save; JPA populates ID on entity
+        URI location = URI.create("/api/stocks/" + entity.getId());
+        return ResponseEntity.created(location).body(mapper.toDto(entity));
+    }
+
+    /** PATCH /api/stocks/{id} -> merge patch, 200 OK (+ body) or 404 */
+    @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> patch(@PathVariable int id, @RequestBody @Valid UpdateStockDto input) {
+        Stock existing = stockService.findById(id);
+        if (existing == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        mapper.updateFromDto(input, existing);
+        stockService.addStock(existing);          // reuse save for updates
+        return ResponseEntity.ok(mapper.toDto(existing));
     }
 }

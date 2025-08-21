@@ -39,3 +39,103 @@ DELETE {{base}}/api/stocks/999999
 Accept: application/json
 //X-XSRF-TOKEN: {{paste_csrf_token_here}}
 //Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+### POST create - 201
+POST {{base}}/api/stocks
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{
+  "symbol": "MSFT",
+  "companyName": "Microsoft Corp",
+  "currentPrice": 412.34,
+  "sector": "TECHNOLOGY",
+  "listedDate": "1986-03-13",
+  "imageURL": "https://example.com/msft.png"
+}
+
+### POST create - 400 (fails validation: blank symbol & negative price)
+POST {{base}}/api/stocks
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{
+  "symbol": "",
+  "companyName": "Bad Inc",
+  "currentPrice": -1,
+  "sector": "TECHNOLOGY"
+}
+
+### PATCH merge update - 200
+PATCH {{base}}/api/stocks/1
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{
+  "currentPrice": 499.99,
+  "imageURL": "https://example.com/new.png"
+}
+
+### PATCH - 404 (non-existent id)
+PATCH {{base}}/api/stocks/999999
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{ "companyName": "Won't Matter" }
+
+### PATCH - 400 (invalid field)
+PATCH {{base}}/api/stocks/1
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{ "currentPrice": -123.45 }
+
+### POST create WITHOUT imageURL -> 201
+POST {{base}}/api/stocks
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{
+  "symbol": "MSFT",
+  "companyName": "Microsoft Corp",
+  "currentPrice": 412.34,
+  "sector": "TECHNOLOGY",
+  "listedDate": "1986-03-13"
+}
+
+### POST create WITH empty imageURL -> 201 (stored as null)
+POST {{base}}/api/stocks
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{
+  "symbol": "GOOG",
+  "companyName": "Alphabet Inc",
+  "currentPrice": 168.77,
+  "sector": "TECHNOLOGY",
+  "listedDate": "2004-08-19",
+  "imageURL": ""
+}
+
+### PATCH clear imageURL by sending empty string -> 200
+PATCH {{base}}/api/stocks/1
+Accept: application/json
+Content-Type: application/json
+//X-XSRF-TOKEN: {{paste_csrf_token_here}}
+//Cookie: JSESSIONID={{paste_jsessionid_here}}
+
+{ "imageURL": "" }

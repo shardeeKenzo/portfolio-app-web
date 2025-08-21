@@ -1,20 +1,49 @@
 package com.example.portfolioappprog5resit.api.mapping;
 
+import com.example.portfolioappprog5resit.api.dto.NewStockDto;
 import com.example.portfolioappprog5resit.api.dto.StockDto;
+import com.example.portfolioappprog5resit.api.dto.UpdateStockDto;
 import com.example.portfolioappprog5resit.domain.Stock;
+import org.mapstruct.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class StockMapper {
-    public StockDto toDto(Stock s) {
-        return new StockDto(
-                s.getId(), s.getSymbol(), s.getCompanyName(),
-                s.getCurrentPrice(), s.getSector(), s.getListedDate(), s.getImageURL()
-        );
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface StockMapper {
+
+    // --- DTO <-> Entity
+    StockDto toDto(Stock s);
+    List<StockDto> toDtoList(List<Stock> in);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "brokerageAccounts", ignore = true)
+    Stock toEntity(NewStockDto dto);
+
+    // Merge PATCH: only non-null properties are copied
+    void updateFromDto(UpdateStockDto dto, @MappingTarget Stock target);
+
+    // --- Post-processing tweaks only (call helpers here)
+    @AfterMapping
+    default void afterCreate(NewStockDto src, @MappingTarget Stock tgt) {
+        tgt.setSymbol(MappingHelpers.normalizeSymbol(src.symbol()));
+        if (src.companyName() != null) {
+            tgt.setCompanyName(MappingHelpers.trimOrNull(src.companyName()));
+        }
+        tgt.setImageURL(MappingHelpers.blankToNull(src.imageURL()));
     }
-    public List<StockDto> toDtoList(List<Stock> in) {
-        return in.stream().map(this::toDto).toList();
+
+    @AfterMapping
+    default void afterPatch(UpdateStockDto src, @MappingTarget Stock tgt) {
+        if (src.symbol() != null) {
+            tgt.setSymbol(MappingHelpers.normalizeSymbol(src.symbol()));
+        }
+        if (src.companyName() != null) {
+            tgt.setCompanyName(MappingHelpers.trimOrNull(src.companyName()));
+        }
+        if (src.imageURL() != null) {
+            tgt.setImageURL(MappingHelpers.blankToNull(src.imageURL()));
+        }
     }
 }

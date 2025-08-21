@@ -1,3 +1,15 @@
+-- USERS (AppUser → @Table(name = "application_user"))
+-- Raw passwords for testing:
+--   alice@example.com / alicepwd
+--   bob@example.com   / bobpwd
+--   admin@example.com / admin123
+INSERT INTO application_user (username, password_hash, role)
+VALUES
+    ('alice@example.com', '$2b$10$Iaz3NZ4yGCI4Ht1ql.Xmh..cP/dY1g./ZXdfyx89mqXc774toSdq2', 'ROLE_USER'),
+    ('bob@example.com',   '$2b$10$WNfc1bNPNj3pb8owrtd6Xe0cpw7FoyOfT.IpOtShAq/R.mfo2Hf1O', 'ROLE_USER'),
+    ('admin@example.com', '$2b$10$g6TyeWDHAl9n8t9/0txZ/e5eSBm5sL0PMR8Yc71s9TjrSPouQbm7a', 'ROLE_ADMIN');
+
+
 -- INVESTORS
 INSERT INTO investors (name, contact_details, birth_date, risk_profile)
 VALUES
