@@ -38,7 +38,7 @@ Content-Type: application/json
     "symbol": "AAPL",
     "companyName": "Apple Inc",
     "currentPrice": 199.99,
-    "sector": "TECHNOLOGY",
+    "sector": "TECHNOLOGIES",
     "listedDate": "2020-01-01",
     "imageURL": null
   },
@@ -47,7 +47,7 @@ Content-Type: application/json
     "symbol": "TSLA",
     "companyName": "Tesla, Inc.",
     "currentPrice": 129.50,
-    "sector": "AUTOMOTIVE",
+    "sector": "CAR_MANUFACTURES",
     "listedDate": "2019-07-01",
     "imageURL": null
   }
@@ -96,7 +96,7 @@ Content-Type: application/json
     "symbol": "AA",
     "companyName": "Alcoa Corp.",
     "currentPrice": 32.10,
-    "sector": "MATERIALS",
+    "sector": "INDUSTRIAL",
     "listedDate": "2016-11-01",
     "imageURL": null
   }
@@ -144,7 +144,7 @@ Content-Type: application/json
   "symbol": "AAPL",
   "companyName": "Apple Inc",
   "currentPrice": 199.99,
-  "sector": "TECHNOLOGY",
+  "sector": "TECHNOLOGIES",
   "listedDate": "2020-01-01",
   "imageURL": null
 }
@@ -192,7 +192,7 @@ Content-Type: application/json
     "symbol": "AAPL",
     "companyName": "Apple Inc",
     "currentPrice": 199.99,
-    "sector": "TECHNOLOGY",
+    "sector": "TECHNOLOGIES",
     "listedDate": "2020-01-01",
     "imageURL": null
   },
@@ -201,7 +201,7 @@ Content-Type: application/json
     "symbol": "TSLA",
     "companyName": "Tesla, Inc.",
     "currentPrice": 129.50,
-    "sector": "AUTOMOTIVE",
+    "sector": "CAR_MANUFACTURES",
     "listedDate": "2019-07-01",
     "imageURL": null
   }
@@ -250,7 +250,7 @@ Content-Type: application/json
     "symbol": "AA",
     "companyName": "Alcoa Corp.",
     "currentPrice": 32.10,
-    "sector": "MATERIALS",
+    "sector": "INDUSTRIAL",
     "listedDate": "2016-11-01",
     "imageURL": null
   }
@@ -285,8 +285,6 @@ HTTP/1.1 204 No Content
 DELETE /api/stocks/5 HTTP/1.1
 Host: localhost:8081
 Accept: application/json
-Cookie: JSESSIONID=YOUR_SESSION_ID
-X-CSRF-TOKEN: YOUR_CSRF_TOKEN
 ```
 
 **Response**
@@ -305,8 +303,6 @@ HTTP/1.1 204 No Content
 DELETE /api/stocks/999999 HTTP/1.1
 Host: localhost:8081
 Accept: application/json
-Cookie: JSESSIONID=YOUR_SESSION_ID
-X-CSRF-TOKEN: YOUR_CSRF_TOKEN
 ```
 
 **Response**

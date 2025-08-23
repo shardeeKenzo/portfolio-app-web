@@ -40,6 +40,10 @@ public class Stock {
     @ManyToMany(mappedBy = "stocks", fetch = FetchType.LAZY)
     private Set<BrokerageAccount> brokerageAccounts = new HashSet<>();
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
+    private AppUser createdBy;
+
 
     // Constructors
     public Stock() { }
@@ -78,6 +82,9 @@ public class Stock {
     public void setSector(Sector sector) { this.sector = sector; }
     public void setListedDate(LocalDate listedDate) { this.listedDate = listedDate; }
     public void setImageURL(String imageURL) { this.imageURL = imageURL; }
+
+    public AppUser getCreatedBy() { return createdBy; }
+    public void setCreatedBy(AppUser createdBy) { this.createdBy = createdBy; }
 
     @Override
     public String toString() {

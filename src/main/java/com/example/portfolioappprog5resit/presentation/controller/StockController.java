@@ -1,11 +1,13 @@
 package com.example.portfolioappprog5resit.presentation.controller;
 
+import com.example.portfolioappprog5resit.config.security.CustomUserDetails;
 import com.example.portfolioappprog5resit.domain.Stock;
 import com.example.portfolioappprog5resit.exception.PortfolioApplicationException;
 import com.example.portfolioappprog5resit.service.StockService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +46,11 @@ public class StockController {
     /**
      * POST /stocks/filter -> Filter stocks based on criteria
      */
-    @PostMapping("/filter")
-    public String filterStocks(@RequestParam String symbol,
-                               @RequestParam String minPriceInput,
-                               @RequestParam String maxPriceInput,
+    @GetMapping("/filter")
+    public String filterStocks(@RequestParam(required = false) String symbol,
+                               @RequestParam(required = false) String minPriceInput,
+                               @RequestParam(required = false) String maxPriceInput,
                                Model model) {
-        logger.info("Extracting stocks based on criteria...");
         model.addAttribute("stocks", stockService.getStocksByCriteria(symbol, minPriceInput, maxPriceInput));
         return "stocks";
     }
@@ -58,9 +59,8 @@ public class StockController {
      * POST /stocks/addstock -> Add a new stock
      */
     @PostMapping("/addstock")
-    public String addStock(Stock stock) {
-        logger.info("Stock {} added ", stock);
-        stockService.addStock(stock);
+    public String addStock(Stock stock, @AuthenticationPrincipal CustomUserDetails me) {
+        stockService.addStock(stock, me.getUserId());             // ← creator locked in here
         return "redirect:/stocks";
     }
 
@@ -69,10 +69,8 @@ public class StockController {
      */
     @GetMapping("/{id}")
     public String showStockDetails(@PathVariable int id, Model model) {
-        Stock stock = stockService.findById(id);
-        if (stock == null) {
-            throw new PortfolioApplicationException("Stock not found with ID: " + id);
-        }
+        Stock stock = stockService.findByIdWithCreator(id);
+        if (stock == null) throw new PortfolioApplicationException("Stock not found with ID: " + id);
         model.addAttribute("stock", stock);
         return "stockdetails";
     }
@@ -81,9 +79,8 @@ public class StockController {
      * POST /stocks/delete/{id} -> Delete a stock
      */
     @PostMapping("/delete/{id}")
-    public String deleteStock(@PathVariable int id) {
-        logger.info("[MVC] POST /stocks/delete/{} invoked", id);
-        stockService.deleteById(id);
+    public String deleteStock(@PathVariable int id, @AuthenticationPrincipal CustomUserDetails me) {
+        stockService.deleteByIdAuthorized(id, me);                // ← owner/admin check
         return "redirect:/stocks";
     }
 }

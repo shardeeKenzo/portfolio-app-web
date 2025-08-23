@@ -3,64 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<meta name="_csrf" th:content="${_csrf.token}">-->
-    <!--<meta name="_csrf_header" th:content="${_csrf.headerName}">-->
+    <!-- CSRF metas kept for any JS (e.g., AJAX create/edit/delete) -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <title th:text="#{app.stocksTitle}">Stocks</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/footer.css">
-
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container">
-    <h1 th:text="#{app.allStocks}">All Stocks</h1>
-    <form action="/stocks/filter" method="post">
+    <h1 class="mt-3" th:text="#{app.allStocks}">All Stocks</h1>
+
+    <!-- Use GET for filtering so it's public and CSRF-free -->
+    <form th:action="@{/stocks/filter}" method="get" class="mb-4">
         <div class="row g-3">
             <div class="col-md">
                 <label for="symbol" th:text="#{app.filterBySymbol}">Filter by Symbol:</label>
-                <input type="text" name="symbol" id="symbol" class="form-control" placeholder="e.g. AAPL">
+                <input type="text" name="symbol" id="symbol" class="form-control" placeholder="e.g. AAPL"
+                       th:value="${param.symbol}">
             </div>
             <div class="col-md">
                 <label for="minPrice" th:text="#{app.minPrice}">Min Price:</label>
-                <input type="text" name="minPriceInput" id="minPrice" class="form-control" placeholder="e.g. 100.00">
+                <input type="text" name="minPriceInput" id="minPrice" class="form-control" placeholder="e.g. 100.00"
+                       th:value="${param.minPriceInput}">
             </div>
             <div class="col-md">
                 <label for="maxPrice" th:text="#{app.maxPrice}">Max Price:</label>
-                <input type="text" name="maxPriceInput" id="maxPrice" class="form-control" placeholder="e.g. 500.00">
+                <input type="text" name="maxPriceInput" id="maxPrice" class="form-control" placeholder="e.g. 500.00"
+                       th:value="${param.maxPriceInput}">
             </div>
-            <div class="col-md">
-                <button type="submit" class="btn mt-4" th:text="#{app.filterButton}">Filter</button>
+            <div class="col-md d-flex align-items-end">
+                <button type="submit" class="btn btn-primary" th:text="#{app.filterButton}">Filter</button>
             </div>
         </div>
     </form>
 
     <div class="row">
-        <div th:if="${not #lists.isEmpty(stocks)}" th:each="stock : ${stocks}" class="col-md-4">
-            <div class="card">
+        <div th:if="${not #lists.isEmpty(stocks)}" th:each="stock : ${stocks}" class="col-md-4 mb-4">
+            <div class="card h-100">
                 <img th:src="${stock.imageURL} ?: '/img/stock-placeholder.svg'"
                      class="card-img-top stock-img" alt="Stock Image">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${stock.companyName}"></h5>
-                    <p>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title" th:text="${stock.companyName}">Company</h5>
+                    <p class="mb-4">
                         <strong th:text="#{app.symbolLabel}">Symbol:</strong> <span th:text="${stock.symbol}"></span><br>
                         <strong th:text="#{app.currentPriceLabel}">Current Price:</strong> $<span th:text="${stock.currentPrice}"></span><br>
                         <strong th:text="#{app.sectorLabel}">Sector:</strong> <span th:text="${stock.sector}"></span><br>
                         <strong th:text="#{app.listedDateLabel}">Listed Date:</strong> <span th:text="${stock.listedDate}"></span>
                     </p>
-                    <a th:href="@{/stocks/{id}(id=${stock.id})}" class="btn" th:text="#{app.viewDetails}">View Details</a>
+                    <a th:href="@{/stocks/{id}(id=${stock.id})}" class="btn btn-warning mt-auto" th:text="#{app.viewDetails}">View Details</a>
                 </div>
             </div>
         </div>
+
         <div th:if="${#lists.isEmpty(stocks)}" class="no-data">
             <p th:text="#{app.noStocksAvailable}">No stocks available at the moment.</p>
         </div>
     </div>
 </div>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="/js/animations.js"></script>
 </body>
 </html>
+
 

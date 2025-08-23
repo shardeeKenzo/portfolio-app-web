@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="'Add Account for ' + ${investor.name}">Add Account</title>
+
+  <!-- CSRF for AJAX / forms -->
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
   <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/addaccount.css">
   <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <!-- Navbar Fragment -->
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
   <!-- Breadcrumb Navigation -->
@@ -63,12 +70,13 @@
   </form>
 </div>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="/js/formValidationForAccs.js"></script>
 </body>
 </html>
+
 
 
 

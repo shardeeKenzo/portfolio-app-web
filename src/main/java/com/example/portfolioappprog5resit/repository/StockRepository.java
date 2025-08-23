@@ -36,6 +36,14 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
            """)
     List<Stock> findAllNotInAccount(@Param("accountId") int accountId);
 
+    boolean existsByIdAndCreatedBy_Id(int id, Integer userId);
+
+    @Query("select s.createdBy.id from Stock s where s.id = :id")
+    Integer findOwnerId(@Param("id") int id);
+
+    @Query("select s from Stock s left join fetch s.createdBy where s.id = :id")
+    Optional<Stock> findByIdWithCreator(@Param("id") int id);
+
     // Bridge method to keep old API: int -> Optional<Stock> -> Stock|null
     default Stock findById(int id) {
         return ((JpaRepository<Stock, Integer>) this)

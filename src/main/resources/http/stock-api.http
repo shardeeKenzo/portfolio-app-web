@@ -51,7 +51,7 @@ Content-Type: application/json
   "symbol": "MSFT",
   "companyName": "Microsoft Corp",
   "currentPrice": 412.34,
-  "sector": "TECHNOLOGY",
+  "sector": "TECHNOLOGIES",
   "listedDate": "1986-03-13",
   "imageURL": "https://example.com/msft.png"
 }
@@ -67,7 +67,7 @@ Content-Type: application/json
   "symbol": "",
   "companyName": "Bad Inc",
   "currentPrice": -1,
-  "sector": "TECHNOLOGY"
+  "sector": "TECHNOLOGIES"
 }
 
 ### PATCH merge update - 200
@@ -111,7 +111,7 @@ Content-Type: application/json
   "symbol": "MSFT",
   "companyName": "Microsoft Corp",
   "currentPrice": 412.34,
-  "sector": "TECHNOLOGY",
+  "sector": "TECHNOLOGIES",
   "listedDate": "1986-03-13"
 }
 
@@ -126,7 +126,7 @@ Content-Type: application/json
   "symbol": "GOOG",
   "companyName": "Alphabet Inc",
   "currentPrice": 168.77,
-  "sector": "TECHNOLOGY",
+  "sector": "TECHNOLOGIES",
   "listedDate": "2004-08-19",
   "imageURL": ""
 }

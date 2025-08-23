@@ -2,6 +2,9 @@ package com.example.portfolioappprog5resit.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "application_user",
         uniqueConstraints = @UniqueConstraint(name="uk_appuser_username", columnNames="username"))
@@ -19,6 +22,9 @@ public class AppUser {
     @Column(nullable=false, length=20)
     private String role;
 
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
+    private Set<Stock> createdStocks = new HashSet<>();
+
     public Integer getId() { return id; }
 
     public void setId(Integer id) { this.id = id; }
@@ -34,4 +40,8 @@ public class AppUser {
     public String getRole() { return role; }
 
     public void setRole(String role) { this.role = role; }
+
+
+    public Set<Stock> getCreatedStocks() { return createdStocks; }
+    public void setCreatedStocks(Set<Stock> s) { this.createdStocks = s; }
 }

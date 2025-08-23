@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Details</title>
+
+  <!-- CSRF for AJAX / dynamic forms -->
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
   <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/accounts.css">
@@ -12,7 +19,7 @@
 </head>
 <body>
 
-<!-- Navbar Fragment -->
+<!-- Navbar Fragment (new syntax) -->
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
@@ -80,6 +87,7 @@
       <td th:text="|${stock.currentPrice} EUR|">0.00 EUR</td>
       <td th:text="${stock.listedDate}">2025-01-01</td>
       <td>
+        <!-- Static form path (Thymeleaf adds CSRF automatically) -->
         <form th:action="@{/accounts/{id}/removestock(id=${account.id})}"
               method="post" style="display:inline;"
               onsubmit="return confirm('Are you sure you want to remove this stock?');">
@@ -100,7 +108,7 @@
   <!-- Add Stocks -->
   <h2>Add Stocks to Account</h2>
   <form th:action="@{/accounts/{id}/addstocks(id=${account.id})}"
-        method="post" class="needs-validation">
+        method="post" class="needs-validation" novalidate>
     <div class="mb-3">
       <label for="stocks" class="form-label">Select Stocks:</label>
       <select id="stocks" name="stockIds" class="form-control" multiple required>
@@ -140,6 +148,7 @@
 <script src="/js/accounts.js"></script>
 </body>
 </html>
+
 
 
 
