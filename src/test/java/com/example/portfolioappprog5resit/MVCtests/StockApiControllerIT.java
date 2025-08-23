@@ -167,10 +167,17 @@ class StockApiControllerIT {
 
     @Test
     void patch_unknownId_returns404() throws Exception {
+        String json = """
+        {
+          "companyName":"DoesNotMatter",
+          "currentPrice": 200.00
+        }
+        """;
+
         mockMvc.perform(patch("/api/stocks/{id}", 999999)
                         .with(user(as(owner))).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"companyName\":\"X\"}"))
+                        .content(json))
                 .andExpect(status().isNotFound());
     }
 
