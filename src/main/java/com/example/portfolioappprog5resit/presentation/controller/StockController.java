@@ -24,9 +24,6 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    /**
-     * GET /stocks -> Show all stocks
-     */
     @GetMapping
     public String showStocksView(Model model){
         logger.info("Request for stocks view!");
@@ -34,18 +31,12 @@ public class StockController {
         return "stocks";
     }
 
-    /**
-     * GET /stocks/addstock -> Show add form
-     */
     @GetMapping("/addstock")
     public String showAddStockForm(Model model) {
         model.addAttribute("stock", new Stock());
         return "addstock";
     }
 
-    /**
-     * POST /stocks/filter -> Filter stocks based on criteria
-     */
     @GetMapping("/filter")
     public String filterStocks(@RequestParam(required = false) String symbol,
                                @RequestParam(required = false) String minPriceInput,
@@ -55,18 +46,12 @@ public class StockController {
         return "stocks";
     }
 
-    /**
-     * POST /stocks/addstock -> Add a new stock
-     */
     @PostMapping("/addstock")
     public String addStock(Stock stock, @AuthenticationPrincipal CustomUserDetails me) {
         stockService.addStock(stock, me.getUserId());             // ← creator locked in here
         return "redirect:/stocks";
     }
 
-    /**
-     * GET /stocks/{id} -> Show stock details
-     */
     @GetMapping("/{id}")
     public String showStockDetails(@PathVariable int id, Model model) {
         Stock stock = stockService.findByIdWithCreator(id);
@@ -75,9 +60,6 @@ public class StockController {
         return "stockdetails";
     }
 
-    /**
-     * POST /stocks/delete/{id} -> Delete a stock
-     */
     @PostMapping("/delete/{id}")
     public String deleteStock(@PathVariable int id, @AuthenticationPrincipal CustomUserDetails me) {
         stockService.deleteByIdAuthorized(id, me);                // ← owner/admin check

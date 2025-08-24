@@ -28,7 +28,7 @@ public class RegistrationController {
                            BindingResult br, HttpServletRequest request) throws ServletException {
         if (br.hasErrors() || !vm.getPassword1().equals(vm.getPassword2())) return "register";
         userService.createNewUser(vm.getUsername(), vm.getPassword1());
-        request.login(vm.getUsername(), vm.getPassword1()); // auto sign-in :contentReference[oaicite:18]{index=18}
+        request.login(vm.getUsername(), vm.getPassword1());
         return "redirect:/";
     }
 }

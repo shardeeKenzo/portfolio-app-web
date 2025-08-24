@@ -19,7 +19,7 @@ public class BrokerageAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // Changed to Integer
+    private Integer id;
 
     @NotBlank(message = "Account number is required")
     @Column(nullable = false, length = 100)
@@ -78,9 +78,7 @@ public class BrokerageAccount {
     public List<Stock> getStocks() { return stocks; }
     public void setStocks(List<Stock> stocks) { this.stocks = stocks; }
 
-    // Behavior
 
-    /** Keep both sides in sync if Stock has a mappedBy collection. */
     public void addStock(Stock stock) {
         if (stock == null) return;
         if (!stocks.contains(stock)) {
@@ -92,7 +90,6 @@ public class BrokerageAccount {
         }
     }
 
-    /** Removes a stock and updates the inverse side if bidirectional. */
     public void removeStock(Stock stock) {
         if (stock == null) return;
         stocks.remove(stock);
@@ -111,7 +108,6 @@ public class BrokerageAccount {
                 ", accountType=" + accountType + '}';
     }
 
-    /** JPA-safe equals/hashCode: id only (no collections). */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

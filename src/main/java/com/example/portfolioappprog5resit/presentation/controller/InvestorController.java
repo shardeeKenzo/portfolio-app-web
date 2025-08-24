@@ -45,13 +45,7 @@ public class InvestorController {
         logger.info("Investor {} added", investor);
         return "redirect:/investors";
     }
-    /**
-     * Displays investor details along with their brokerage accounts.
-     *
-     * @param id    The ID of the Investor
-     * @param model The model to pass data to the view
-     * @return The name of the Thymeleaf template for investor details
-     */
+
     @GetMapping("/{id}")
     public String getInvestorDetails(@PathVariable int id, Model model) {
         Investor investor = investorService.findWithAccounts(id);
@@ -62,13 +56,6 @@ public class InvestorController {
         return "investordetails";
     }
 
-    /**
-     * Displays the form to add a new BrokerageAccount for an Investor.
-     *
-     * @param id    The ID of the Investor
-     * @param model The model to pass data to the view
-     * @return The name of the Thymeleaf template for adding an account
-     */
     @GetMapping("/{id}/addaccount")
     public String showAddAccountForm(@PathVariable int id, Model model) {
         Investor investor = investorService.findWithAccounts(id);
@@ -82,15 +69,6 @@ public class InvestorController {
         return "addaccount";
     }
 
-    /**
-     * Handles the submission of the form to add a new BrokerageAccount.
-     *
-     * @param id           The ID of the Investor
-     * @param account      The BrokerageAccount object bound from the form
-     * @param result       BindingResult for validation errors
-     * @param model        The model to pass data to the view
-     * @return Redirects to the Investor Details page upon success or returns to the form on error
-     */
     @PostMapping("/{id}/addaccount")
     public String addAccount(
             @PathVariable int id,

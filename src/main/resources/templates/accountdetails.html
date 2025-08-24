@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Account Details</title>
 
-  <!-- CSRF for AJAX / dynamic forms -->
   <meta name="_csrf" th:content="${_csrf.token}">
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
@@ -138,7 +137,6 @@
         class="btn btn-secondary mt-3 disabled" style="opacity: 0.5;">No Investor Linked</span>
 </div>
 
-<!-- Hidden i18n slot used by accounts.js -->
 <span id="msg-app.removeStockConfirmation" data-message="Are you sure you want to remove this stock?" hidden></span>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

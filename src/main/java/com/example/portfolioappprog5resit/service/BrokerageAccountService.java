@@ -13,7 +13,7 @@ public interface BrokerageAccountService {
     void removeStockFromAccount(int accountId, int stockId);
 
     void deleteById(int id);
-    void deleteAccount(int id); // alias kept for compatibility
+    void deleteAccount(int id);
 
     List<BrokerageAccount> findAll();
 }

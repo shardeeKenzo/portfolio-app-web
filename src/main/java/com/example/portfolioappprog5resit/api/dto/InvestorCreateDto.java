@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public record InvestorCreateDto(
         @NotBlank @Size(min=2, max=200) String name,
-        @Email String contactDetails,       // optional
+        @Email String contactDetails,
         @NotNull LocalDate birthDate,
-        @Size(max=50) String riskProfile    // optional
+        @Size(max=50) String riskProfile
 ) {}

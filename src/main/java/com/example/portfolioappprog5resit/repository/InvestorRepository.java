@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public interface InvestorRepository extends JpaRepository<Investor, Integer> {
 
-    /** Eagerly load accounts (+ stocks) for a single investor to avoid N+1s in the service/view. */
     @Query("""
            select distinct i
            from Investor i
@@ -22,15 +21,10 @@ public interface InvestorRepository extends JpaRepository<Investor, Integer> {
            """)
     Optional<Investor> findWithAccounts(@Param("id") int id);
 
-    // Derived helpers used by the default method below
     List<Investor> findByNameContainingIgnoreCase(String name);
     List<Investor> findByBirthDate(LocalDate birthDate);
     List<Investor> findByNameContainingIgnoreCaseAndBirthDate(String name, LocalDate birthDate);
 
-    /**
-     * Keeps your original signature: (nameInput, dobInput) are Strings.
-     * Parses dobInput as ISO-8601 (YYYY-MM-DD). If parse fails or either param is blank, it narrows accordingly.
-     */
     default List<Investor> findByCriteria(String nameInput, String dobInput) {
         String name = (nameInput == null || nameInput.isBlank()) ? null : nameInput.trim();
         LocalDate dob = null;

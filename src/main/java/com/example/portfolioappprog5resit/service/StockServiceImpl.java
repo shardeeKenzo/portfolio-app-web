@@ -32,7 +32,7 @@ public class StockServiceImpl implements StockService {
     public void addStock(Stock stock, int creatorUserId) {
         var creator = appUserRepository.findById(creatorUserId)
                 .orElseThrow(() -> new PortfolioApplicationException("Unknown user"));
-        stock.setCreatedBy(creator);               // ← attach creator here
+        stock.setCreatedBy(creator);
         try {
             stockRepository.save(stock);
         } catch (Exception e) {
@@ -76,7 +76,6 @@ public class StockServiceImpl implements StockService {
         if (!isAdmin) {
             boolean isOwner = stockRepository.existsByIdAndCreatedBy_Id(id, current.getUserId());
             if (!isOwner) {
-                // mirror Spring Security semantics
                 throw new org.springframework.security.access.AccessDeniedException("Not allowed to delete this stock");
             }
         }
@@ -119,30 +118,24 @@ public class StockServiceImpl implements StockService {
             throw new IllegalArgumentException("Stock must have a valid ID for update");
         }
         if (current == null) {
-            // Controller should already require auth for write endpoints, but double-check:
             throw new AccessDeniedException("Authentication required");
         }
 
-        // Admin?
         boolean isAdmin = current.getAuthorities().stream()
                 .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
 
-        // Owner? (check against DB, not the passed object)
         boolean isOwner = stockRepository.existsByIdAndCreatedBy_Id(stock.getId(), current.getUserId());
 
         if (!isAdmin && !isOwner) {
             throw new AccessDeniedException("Not allowed to update this stock");
         }
 
-        // Lock creator: never allow changing createdBy via API/mapper
         Integer ownerId = stockRepository.findOwnerId(stock.getId());
         if (ownerId == null) {
             throw new PortfolioApplicationException("Cannot determine stock owner for id=" + stock.getId());
         }
-        // Re-attach the original creator reference from the DB
         stock.setCreatedBy(appUserRepository.getReferenceById(ownerId));
 
-        // Persist changes (merge if detached)
         try {
             stockRepository.save(stock);
         } catch (Exception e) {

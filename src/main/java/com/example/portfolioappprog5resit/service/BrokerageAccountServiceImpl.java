@@ -24,7 +24,6 @@ public class BrokerageAccountServiceImpl implements BrokerageAccountService {
 
     @Override
     public BrokerageAccount findById(int id) {
-        // If you want stocks too, prefer findByIdWithStocks
         return accountRepository.findById(id).orElse(null);
     }
 
@@ -41,7 +40,6 @@ public class BrokerageAccountServiceImpl implements BrokerageAccountService {
 
         List<Stock> stocksToAdd = stockRepository.findAllById(stockIds);
         stocksToAdd.forEach(account::addStock);
-        // optional save
     }
 
     @Override
@@ -54,7 +52,6 @@ public class BrokerageAccountServiceImpl implements BrokerageAccountService {
         if (stock == null) throw new PortfolioApplicationException("Stock not found with ID: " + stockId);
 
         account.removeStock(stock);
-        // optional save
     }
 
     @Override
@@ -74,7 +71,6 @@ public class BrokerageAccountServiceImpl implements BrokerageAccountService {
     @Override
     @Transactional
     public void deleteAccount(int id) {
-        // keep your original “alias” method
         deleteById(id);
     }
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2025-08-23T18:52:42.896Z" hostname="2a02-1810-2f1b-b200-9a85-6b41-7117-e6b6.ip6.access.telenet.be" time="0.159">
+  <properties/>
+  <testcase name="addInvestor_repoThrows_isWrapped()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.117"/>
+  <testcase name="findWithAccounts_success_optionalPresent()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.003"/>
+  <testcase name="getInvestorsByCriteria_repoThrows_isWrapped()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.016"/>
+  <testcase name="addAccount_linksBothWays_andSavesInvestor()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.005"/>
+  <testcase name="addAccount_repoThrows_isWrappedInDomainException()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.004"/>
+  <testcase name="addInvestor_success_callsSave()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.002"/>
+  <testcase name="getInvestorsByCriteria_passThrough_success()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.003"/>
+  <testcase name="findWithAccounts_empty_returnsNull()" classname="com.example.portfolioappprog5resit.serviceTests.InvestorServiceImplTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

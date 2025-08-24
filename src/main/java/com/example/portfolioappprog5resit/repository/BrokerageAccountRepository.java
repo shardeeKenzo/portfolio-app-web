@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BrokerageAccountRepository extends JpaRepository<BrokerageAccount, Integer> {
 
-    /** Load account with its stocks in one roundtrip (avoid N+1). */
     @Query("""
            select ba
            from BrokerageAccount ba

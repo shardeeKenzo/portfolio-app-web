@@ -92,7 +92,6 @@ public class Stock {
                 ", currentPrice=" + currentPrice + ", listedDate=" + listedDate + '}';
     }
 
-    /** JPA-safe equality: id-based, no collections. */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

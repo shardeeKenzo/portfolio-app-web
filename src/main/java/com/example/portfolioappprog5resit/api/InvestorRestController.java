@@ -21,7 +21,6 @@ public class InvestorRestController {
         this.investorService = investorService;
     }
 
-    /** Simple search by name + optional dob (ISO yyyy-MM-dd). Returns list or empty. */
     @GetMapping
     public List<InvestorDto> search(
             @RequestParam(required = false) String name,
@@ -34,10 +33,6 @@ public class InvestorRestController {
         return list.stream().map(InvestorDto::from).toList();
     }
 
-    /**
-     * Create a new Investor.
-     * SECURITY: this endpoint is deliberately open (permitAll) for testing the Client.
-     */
     @PostMapping
     public ResponseEntity<InvestorDto> create(@Valid @RequestBody InvestorCreateDto in) {
         Investor i = new Investor();

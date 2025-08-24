@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2025-08-23T18:52:42.222Z" hostname="2a02-1810-2f1b-b200-9a85-6b41-7117-e6b6.ip6.access.telenet.be" time="0.667">
+  <properties/>
+  <testcase name="deleteById_notFound_throws_andDoesNotDelete()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.6"/>
+  <testcase name="removeStockFromAccount_success_removesExactlyOnce()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.025"/>
+  <testcase name="deleteById_success_callsRepositoryDelete()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.006"/>
+  <testcase name="addStocksToAccount_success_addsAllStocks_andDoesNotThrow()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.009"/>
+  <testcase name="addStocksToAccount_accountNotFound_throwsDomainException()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.005"/>
+  <testcase name="removeStockFromAccount_stockNotFound_throws()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.006"/>
+  <testcase name="removeStockFromAccount_accountNotFound_throws()" classname="com.example.portfolioappprog5resit.serviceTests.BrokerageAccountServiceImplTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

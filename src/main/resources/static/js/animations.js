@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // smooth scroll to sections
     const links = document.querySelectorAll("a[href^='#']");
     links.forEach(link => {
         link.addEventListener("click", function (e) {
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // animate cards on hover
     const cards = document.querySelectorAll(".card");
     cards.forEach(card => {
         card.addEventListener("mouseover", function () {
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    // add animation to table rows
     const rows = document.querySelectorAll("table tbody tr");
     rows.forEach(row => {
         row.addEventListener("mouseover", () => {
@@ -38,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // smooth form validation scroll
     const forms = document.querySelectorAll(".needs-validation");
     forms.forEach(form => {
         form.addEventListener("submit", function (event) {

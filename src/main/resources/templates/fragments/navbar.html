@@ -69,7 +69,6 @@
                     </div>
 
                     <div sec:authorize="isAuthenticated()" class="ms-2">
-                        <!-- Spring Security default is POST /logout. CSRF is temporarily disabled per assignment, so no token needed. -->
                         <form th:action="@{/logout}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-outline-warning btn-sm">Logout</button>
                         </form>

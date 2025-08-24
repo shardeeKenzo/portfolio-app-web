@@ -13,7 +13,6 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface StockMapper {
 
-    // --- DTO <-> Entity
     StockDto toDto(Stock s);
     List<StockDto> toDtoList(List<Stock> in);
 
@@ -21,10 +20,8 @@ public interface StockMapper {
     @Mapping(target = "brokerageAccounts", ignore = true)
     Stock toEntity(NewStockDto dto);
 
-    // Merge PATCH: only non-null properties are copied
     void updateFromDto(UpdateStockDto dto, @MappingTarget Stock target);
 
-    // --- Post-processing tweaks only (call helpers here)
     @AfterMapping
     default void afterCreate(NewStockDto src, @MappingTarget Stock tgt) {
         tgt.setSymbol(MappingHelpers.normalizeSymbol(src.symbol()));

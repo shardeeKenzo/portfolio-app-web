@@ -14,9 +14,9 @@
     }
 
     function jsonHeaders(hasBody = false) {
-        const h = { Accept: 'application/json' }; // Content negotiation, per REST slides
+        const h = { Accept: 'application/json' };
         if (hasBody) h['Content-Type'] = 'application/json';
-        if (csrfHeaderName && csrfToken) h[csrfHeaderName] = csrfToken; // CSRF header for AJAX
+        if (csrfHeaderName && csrfToken) h[csrfHeaderName] = csrfToken;
         return h;
     }
 
@@ -30,7 +30,6 @@
 
         const resp = await fetch(url, opts);
 
-        // Handle common statuses from our REST API contract (200/201/204/4xx) :contentReference[oaicite:3]{index=3}
         if (resp.status === 204) return null;
         if (resp.ok) {
             // try to parse JSON only when present
@@ -40,9 +39,8 @@
         }
 
         if (resp.status === 403) {
-            // Your SecurityConfig returns 403 for unauthenticated API calls (no redirect) :contentReference[oaicite:4]{index=4}
             showAlert('You are not allowed to perform this action. Please sign in or check your permissions.', 'warning');
-            // Helpful: offer to go to login for convenience
+
             if (confirm('This action requires you to be signed in. Go to the login page now?')) {
                 const back = encodeURIComponent(location.pathname + location.search + location.hash);
                 location.href = `/login?from=${back}`;
@@ -57,9 +55,7 @@
         throw new Error(`Request failed: HTTP ${resp.status}`);
     }
 
-    // ---- API helpers ---------------------------------------------------------
     async function createStock(newStock) {
-        // POST /api/stocks -> 201 + body (slides) :contentReference[oaicite:5]{index=5}
         return apiFetch('/api/stocks', {
             method: 'POST',
             body: newStock
@@ -74,16 +70,14 @@
     }
 
     async function deleteStock(id) {
-        // DELETE /api/stocks/{id} -> 204 (slides) :contentReference[oaicite:6]{index=6}
         await apiFetch(`/api/stocks/${id}`, { method: 'DELETE' });
     }
 
-    // ---- Minimal DOM glue (Bootstrap-friendly) -------------------------------
     function renderCard(stock) {
         const img = stock.imageURL && stock.imageURL.trim() ? stock.imageURL : '/img/stock-placeholder.svg';
         const listed = stock.listedDate || '';
         const createdBy = stock.createdByEmail ? `Created by: ${stock.createdByEmail}` : '';
-        // Buttons are visible; backend still enforces authorization (defense in depth).
+
         return `
       <div class="col-md-4" id="row-${stock.id}">
         <div class="card h-100">
@@ -107,7 +101,6 @@
     }
 
     function showAlert(message, type = 'info') {
-        // Lightweight alert helper. You can replace with a proper Bootstrap toast if you like.
         const box = document.createElement('div');
         box.className = `alert alert-${type} position-fixed top-0 start-50 translate-middle-x mt-3 shadow`;
         box.role = 'alert';
@@ -117,7 +110,6 @@
         setTimeout(() => box.remove(), 3000);
     }
 
-    // ---- Add (form with id="api-add-stock-form") -----------------------------
     document.addEventListener('submit', async (e) => {
         if (!e.target.matches('#api-add-stock-form')) return;
         e.preventDefault();
@@ -140,7 +132,6 @@
         }
     });
 
-    // ---- Quick inline PATCH (price) ------------------------------------------
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.btn-quick-edit');
         if (!btn) return;
@@ -160,7 +151,6 @@
         }
     });
 
-    // ---- DELETE button -------------------------------------------------------
     document.addEventListener('click', async (e) => {
         const btn = e.target.closest('.btn-delete');
         if (!btn) return;
@@ -175,6 +165,5 @@
         }
     });
 
-    // Expose for debugging
     window.stocksApi = { createStock, patchStock, deleteStock };
 })();

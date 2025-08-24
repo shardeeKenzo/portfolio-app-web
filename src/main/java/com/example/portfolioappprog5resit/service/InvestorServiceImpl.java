@@ -34,11 +34,9 @@ public class InvestorServiceImpl implements InvestorService {
     @Transactional
     public void addAccount(Investor investor, BrokerageAccount brokerageAccount) {
         try {
-            // link both ways
             brokerageAccount.setInvestor(investor);
             investor.getAccounts().add(brokerageAccount);
 
-            // persist via cascade on Investor.accounts
             investorRepository.save(investor);
         } catch (Exception e) {
             throw new PortfolioApplicationException("Failed to add brokerage account", e);

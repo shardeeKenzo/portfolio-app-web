@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Details</title>
+
+  <!-- CSRF for AJAX / dynamic forms -->
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/accounts.css">
+  <link rel="stylesheet" href="/css/trading-table.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+
+<!-- Navbar Fragment (new syntax) -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+
+      <li class="breadcrumb-item" th:if="${account.investor != null}">
+        <a th:href="@{/investors/{id}(id=${account.investor.id})}"
+           th:text="${account.investor.name}">Investor Name</a>
+      </li>
+
+      <li class="breadcrumb-item" th:if="${account.investor == null}">
+        <em>No Investor</em>
+      </li>
+
+      <li class="breadcrumb-item active" aria-current="page"
+          th:text="${account.accountNumber}">ACC12345</li>
+    </ol>
+  </nav>
+
+  <!-- Flash Messages -->
+  <div th:if="${param.success == 'stocksAdded'}" class="alert alert-success" role="alert">
+    <span>Stocks successfully added to the account.</span>
+  </div>
+  <div th:if="${param.error == 'noStocksSelected'}" class="alert alert-danger" role="alert">
+    <span>No stocks were selected to add.</span>
+  </div>
+  <div th:if="${param.success == 'stockRemoved'}" class="alert alert-success" role="alert">
+    <span>Stock successfully removed from the account.</span>
+  </div>
+  <div th:if="${param.success == 'accountDeleted'}" class="alert alert-success" role="alert">
+    <span>Account successfully deleted.</span>
+  </div>
+  <div th:if="${param.error == 'accountDeletionFailed'}" class="alert alert-danger" role="alert">
+    <span>Failed to delete account.</span>
+  </div>
+
+  <h1>Account Details</h1>
+  <p><strong>Account Number:</strong> <span th:text="${account.accountNumber}">ACC12345</span></p>
+  <p><strong>Account Type:</strong> <span th:text="${account.accountType}">INDIVIDUAL</span></p>
+  <p><strong>Balance:</strong> <span th:text="|${account.balance} EUR|">0.00 EUR</span></p>
+  <p><strong>Creation Date:</strong> <span th:text="${account.creationDate}">2025-01-05</span></p>
+
+  <!-- Existing Stocks -->
+  <h2>Stocks in this Account</h2>
+  <table class="table trading-table">
+    <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Company Name</th>
+      <th>Price (EUR)</th>
+      <th>Listed Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="stock : ${account.stocks}">
+      <td>
+        <a th:href="@{/stocks/{id}(id=${stock.id})}"
+           th:text="${stock.symbol}" class="text-warning">STOCK</a>
+      </td>
+      <td th:text="${stock.companyName}">Company Name</td>
+      <td th:text="|${stock.currentPrice} EUR|">0.00 EUR</td>
+      <td th:text="${stock.listedDate}">2025-01-01</td>
+      <td>
+        <!-- Static form path (Thymeleaf adds CSRF automatically) -->
+        <form th:action="@{/accounts/{id}/removestock(id=${account.id})}"
+              method="post" style="display:inline;"
+              onsubmit="return confirm('Are you sure you want to remove this stock?');">
+          <input type="hidden" name="stockId" th:value="${stock.id}">
+          <button type="submit" class="btn btn-danger btn-sm btn-trade remove-stock-button"
+                  th:attr="data-stock-id=${stock.id}">
+            Remove
+          </button>
+        </form>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(account.stocks)}">
+      <td colspan="5" class="text-center">No stocks in this account.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Add Stocks -->
+  <h2>Add Stocks to Account</h2>
+  <form th:action="@{/accounts/{id}/addstocks(id=${account.id})}"
+        method="post" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="stocks" class="form-label">Select Stocks:</label>
+      <select id="stocks" name="stockIds" class="form-control" multiple required>
+        <option th:each="stock : ${availableStocks}"
+                th:value="${stock.id}"
+                th:text="|${stock.symbol} - ${stock.companyName}|">
+        </option>
+      </select>
+      <div class="invalid-feedback">Please select at least one stock.</div>
+    </div>
+    <button type="submit" class="btn btn-trade">Add Stocks</button>
+  </form>
+
+  <!-- Delete Account -->
+  <form th:action="@{/accounts/delete/{id}(id=${account.id})}"
+        method="post" class="mt-4"
+        onsubmit="return confirm('Are you sure you want to delete this account?');">
+    <button type="submit" class="btn btn-danger btn-trade">Delete Account</button>
+  </form>
+
+  <!-- Back to Investor Details -->
+  <span th:if="${account.investor != null}">
+    <a th:href="@{/investors/{id}(id=${account.investor.id})}"
+       class="btn btn-secondary mt-3 btn-trade">Back to Investor Details</a>
+  </span>
+  <span th:if="${account.investor == null}"
+        class="btn btn-secondary mt-3 disabled" style="opacity: 0.5;">No Investor Linked</span>
+</div>
+
+<!-- Hidden i18n slot used by accounts.js -->
+<span id="msg-app.removeStockConfirmation" data-message="Are you sure you want to remove this stock?" hidden></span>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/animations.js"></script>
+<script src="/js/accounts.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

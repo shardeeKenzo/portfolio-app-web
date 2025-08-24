@@ -68,7 +68,6 @@ public class Investor {
                 ", accounts=" + (accounts != null ? accounts.size() : 0);
     }
 
-    /** JPA-safe equals/hashCode: use id when assigned; otherwise fall back to identity */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

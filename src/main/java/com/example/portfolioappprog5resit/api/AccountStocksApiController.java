@@ -26,7 +26,7 @@ public class AccountStocksApiController {
         return list.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(mapper.toDtoList(list));
     }
 
-    // GET helper: stocks not yet in this account (useful to populate “add” UI)
+    // GET helper: stocks not yet in this account
     @GetMapping("available")
     public ResponseEntity<?> getNotInAccount(@PathVariable int accountId) {
         var list = stockService.findAllNotInAccount(accountId);

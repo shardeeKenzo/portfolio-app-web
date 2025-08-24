@@ -14,7 +14,6 @@ import java.util.Optional;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Integer> {
 
-    // ----- Derived queries used by the default bridge methods -----
     List<Stock> findBySymbolContainingIgnoreCase(String symbol);
     List<Stock> findByCurrentPriceBetween(double min, double max);
     List<Stock> findByCurrentPriceGreaterThanEqual(double min);
@@ -44,7 +43,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
     @Query("select s from Stock s left join fetch s.createdBy where s.id = :id")
     Optional<Stock> findByIdWithCreator(@Param("id") int id);
 
-    // Bridge method to keep old API: int -> Optional<Stock> -> Stock|null
     default Stock findById(int id) {
         return ((JpaRepository<Stock, Integer>) this)
                 .findById(Integer.valueOf(id))
@@ -77,7 +75,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
         return findByIdIn(ids);
     }
 
-    // small helper: preserve order & uniqueness pragmatically
     private static <T> List<T> intersect(List<T> a, List<T> b) {
         if (a == null || b == null) return List.of();
         List<T> out = new ArrayList<>();

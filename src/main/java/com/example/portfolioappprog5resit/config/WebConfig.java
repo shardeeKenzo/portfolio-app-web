@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:9000") // webpack dev server
+                        .allowedOrigins("http://localhost:9000")
                         .allowedMethods(HttpMethod.GET.name(), HttpMethod.POST.name())
                         .allowCredentials(false);
             }

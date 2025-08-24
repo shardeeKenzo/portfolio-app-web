@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="'Add Account for ' + ${investor.name}">Add Account</title>
+
+  <!-- CSRF for AJAX / forms -->
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/addaccount.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<!-- Navbar Fragment -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+      <li class="breadcrumb-item"><a th:href="@{/investors/{id}(id=${investor.id})}" th:text="${investor.name}">Investor Name</a></li>
+      <li class="breadcrumb-item active" aria-current="page" th:text="#{app.addAccountTitle}">Add Account</li>
+    </ol>
+  </nav>
+
+  <h1 class="text-center mb-4" th:text="'Add Account for ' + ${investor.name}">Add Account</h1>
+
+  <!-- Success Message -->
+  <div th:if="${param.success == 'accountAdded'}" class="alert alert-success" role="alert">
+    <span th:text="#{app.accountAddedSuccess}">Account successfully added.</span>
+  </div>
+
+  <form th:action="@{/investors/{id}/addaccount(id=${investor.id})}" method="post" class="needs-validation" novalidate>
+    <input type="hidden" name="investorId" th:value="${investor.id}" />
+
+    <div class="mb-3">
+      <label for="accountNumber" class="form-label" th:text="#{app.accountNumberLabel}">Account Number:</label>
+      <input type="text" id="accountNumber" name="accountNumber" class="form-control"
+             placeholder="e.g., ACC12345" required>
+      <div class="invalid-feedback" th:text="#{app.accountNumberInvalid}">Please provide a valid account number.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="accountType" class="form-label" th:text="#{app.accountTypeLabel}">Account Type:</label>
+      <select id="accountType" name="accountType" class="form-control" required>
+        <option value="" disabled selected th:text="#{app.selectAccountType}">Select Account Type</option>
+        <option value="INDIVIDUAL" th:text="#{app.accountTypeIndividual}">Individual</option>
+        <option value="JOINT" th:text="#{app.accountTypeJoint}">Joint</option>
+        <option value="RETIREMENT" th:text="#{app.accountTypeRetirement}">Retirement</option>
+      </select>
+      <div class="invalid-feedback" th:text="#{app.accountTypeInvalid}">Please select an account type.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="balance" class="form-label" th:text="#{app.balanceLabel}">Balance:</label>
+      <input type="number" id="balance" name="balance" class="form-control" step="0.01"
+             placeholder="e.g., 5000.00" required>
+      <div class="invalid-feedback" th:text="#{app.balanceInvalid}">Please provide a valid balance.</div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning" th:text="#{app.addAccountButton}">Add Account</button>
+    </div>
+  </form>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/formValidationForAccs.js"></script>
+</body>
+</html>
+
+
+
+

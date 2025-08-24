@@ -28,7 +28,6 @@ GET {{base}}/api/accounts/1/stocks/available
 Accept: application/json
 
 ### DELETE by id - 204 (requires login + CSRF)
-# Paste your CSRF token and session cookie if security is enabled
 DELETE {{base}}/api/stocks/5
 Accept: application/json
 //X-XSRF-TOKEN: {{paste_csrf_token_here}}

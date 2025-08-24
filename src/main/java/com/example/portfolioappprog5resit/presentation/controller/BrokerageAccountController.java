@@ -29,9 +29,6 @@ public class BrokerageAccountController {
         this.stockService = stockService;
     }
 
-    /**
-     * GET /accounts/{id} -> Show account details along with available stocks to add
-     */
     @GetMapping("/{id}")
     public String showAccountDetails(@PathVariable int id, Model model) {
         logger.info("Request for account details with id={}", id);
@@ -48,9 +45,6 @@ public class BrokerageAccountController {
         return "accountdetails";
     }
 
-    /**
-     * POST /accounts/{id}/addstocks -> Add selected stocks to the account
-     */
     @PostMapping("/{id}/addstocks")
     public String addStocksToAccount(@PathVariable int id,
                                      @RequestParam(required = false) List<Integer> stockIds,
@@ -66,9 +60,6 @@ public class BrokerageAccountController {
         return "redirect:/accounts/{id}";
     }
 
-    /**
-     * POST /accounts/{id}/removestock -> Remove a stock from the account
-     */
     @PostMapping("/{id}/removestock")
     public String removeStockFromAccount(@PathVariable int id,
                                          @RequestParam int stockId,
@@ -79,9 +70,6 @@ public class BrokerageAccountController {
         return "redirect:/accounts/{id}";
     }
 
-    /**
-     * POST /accounts/delete/{id} -> Delete a brokerage account
-     */
     @PostMapping("/delete/{id}")
     public String deleteAccount(@PathVariable int id, RedirectAttributes redirectAttributes) {
         logger.info("Deleting brokerage account with id={}", id);

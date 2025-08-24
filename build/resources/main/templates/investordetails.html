@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.investorDetailsTitle}">Investor Details</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+
+    <!-- CSRF for AJAX / forms -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/investordetails.css">
+    <link rel="stylesheet" href="/css/trading-table.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-4">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${investor.name}">Investor Name</li>
+        </ol>
+    </nav>
+
+    <h1 th:text="${investor.name}">Investor Name</h1>
+    <p>
+        <strong th:text="#{app.contactDetails}">Contact Details:</strong>
+        <span th:text="${investor.contactDetails}"></span>
+    </p>
+    <p>
+        <strong th:text="#{app.riskProfileColumn}">Risk Profile:</strong>
+        <span th:text="${investor.riskProfile}"></span>
+    </p>
+    <p>
+        <strong th:text="#{app.birthDateColumn}">Birth Date:</strong>
+        <span th:text="${investor.birthDate}"></span>
+    </p>
+
+    <!-- Success Message for Adding Accounts -->
+    <div th:if="${param.success == 'accountAdded'}" class="alert alert-success" role="alert">
+        <span th:text="#{app.accountAddedSuccess}">Account successfully added.</span>
+    </div>
+
+    <h2 th:text="#{acc.brokerageAccounts}">Brokerage Accounts</h2>
+    <a th:href="@{/investors/{id}/addaccount(id=${investor.id})}" class="btn btn-success mb-3 btn-trade" th:text="#{app.addAccountButton}">Add Account</a>
+
+    <table class="table trading-table">
+        <thead>
+        <tr>
+            <th th:text="#{app.accountNumberColumn}">Account Number</th>
+            <th th:text="#{app.accountTypeColumn}">Account Type</th>
+            <th th:text="#{app.balanceColumn}">Balance</th>
+            <th th:text="#{app.actionsColumn}">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="account : ${investor.accounts}">
+            <td>
+                <!-- Clickable Account Number Linking to Account Details -->
+                <a th:href="@{/accounts/{id}(id=${account.id})}" th:text="${account.accountNumber}" class="text-warning">
+                    ACC12345
+                </a>
+            </td>
+            <td th:text="${account.accountType}"></td>
+            <td th:text="${account.balance} + ' EUR'"></td>
+            <td>
+                <!-- Delete Account Button with Confirmation -->
+                <form th:action="@{/accounts/delete/{id}(id=${account.id})}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this account?');">
+                    <button type="submit" class="btn btn-danger btn-sm btn-trade" th:text="#{app.deleteButton}">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(investor.accounts)}">
+            <td colspan="4" class="text-center" th:text="#{app.noAccountsMessage}">No brokerage accounts found for this investor.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Delete Investor Button with Confirmation -->
+    <form th:action="@{/investors/delete/{id}(id=${investor.id})}" method="post" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this investor? All associated accounts will also be deleted.');">
+        <button type="submit" class="btn btn-danger btn-trade" th:text="#{app.deleteInvestorButton}">Delete Investor</button>
+    </form>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="/js/animations.js"></script>
+</body>
+</html>
+
+
+
+
+

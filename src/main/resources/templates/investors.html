@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{app.investorsTitle}">Investors</title>
 
-    <!-- CSRF for AJAX / forms -->
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
@@ -22,7 +21,6 @@
 <div class="container">
     <h1 th:text="#{app.allInvestors}">All Investors</h1>
 
-    <!-- Use th:action so CSRF is added -->
     <form th:action="@{/investors/filter}" method="post" class="needs-validation" novalidate>
         <div class="row g-3">
             <div class="col-md">

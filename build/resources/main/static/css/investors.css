@@ -1,0 +1,60 @@
+body {
+    background-color: #121212;
+    color: #f1f1f1;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+h1 {
+    color: #ffcc00;
+    text-shadow: 2px 2px #000;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #1e1e1e;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+    background-color: #2a2a2a;
+}
+
+.table {
+    color: #f1f1f1;
+}
+
+.table th {
+    background-color: #333;
+    color: #ffcc00;
+}
+
+.delete-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+}
+
+.delete-icon:hover {
+    transform: scale(1.2);
+}
+
+.btn {
+    background-color: #ffcc00;
+    color: #121212;
+    border: none;
+}
+
+.btn:hover {
+    background-color: #f1c40f;
+    color: #121212;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    background-color: #1e1e1e;
+    color: #888;
+}

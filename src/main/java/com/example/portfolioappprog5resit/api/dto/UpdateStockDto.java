@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 
-/** Used for PATCH /api/stocks/{id} — all fields nullable -> “merge patch” */
 public record UpdateStockDto(
         @Size(min = 1, max = 50) String symbol,
         @Size(min = 3, max = 200) String companyName,
